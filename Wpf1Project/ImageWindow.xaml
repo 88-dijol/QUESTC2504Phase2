@@ -1,0 +1,23 @@
+﻿<Window x:Class="Wpf1Project.ImageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf1Project"
+        mc:Ignorable="d"
+        Title="Image Brush" Height="450" Width="800" Closing="Window_Closing">
+    <Canvas>
+        <Rectangle Height="286" Canvas.Left="167" Stroke="Black" Canvas.Top="56" Width="380" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/Peacock.jpg" TileMode="Tile" Opacity="0.5"></ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Ellipse Height="127" Canvas.Left="268" Stroke="Black" Canvas.Top="137" Width="144" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="/Duck.jpg" TileMode="Tile" Opacity="1"></ImageBrush>
+            </Ellipse.Fill>
+
+        </Ellipse>
+
+    </Canvas>
+</Window>

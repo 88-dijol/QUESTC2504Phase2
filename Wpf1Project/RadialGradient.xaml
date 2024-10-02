@@ -1,0 +1,31 @@
+﻿<Window x:Class="Wpf1Project.RadialGradient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf1Project"
+        mc:Ignorable="d"
+        Title="Radial Gradient" Height="450" Width="800" Closing="Window_Closing">
+    <Canvas>
+        <Rectangle Height="131" Canvas.Left="167" Stroke="Black" Canvas.Top="56" Width="172" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <RadialGradientBrush >
+                    <GradientStop Color="Bisque" Offset="0"/>
+                    <GradientStop Color="Green" Offset="1"/>
+
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Ellipse Height="127" Canvas.Left="481" Stroke="Black" Canvas.Top="59" Width="144" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Ellipse.Fill>
+                <RadialGradientBrush >
+                    <GradientStop Color="Red" Offset="1"/>
+                    <GradientStop Color="Wheat" Offset="0"/>
+
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+
+        </Ellipse>
+
+    </Canvas>
+</Window>

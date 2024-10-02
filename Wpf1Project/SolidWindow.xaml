@@ -1,0 +1,23 @@
+﻿<Window x:Class="Wpf1Project.SolidWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf1Project"
+        mc:Ignorable="d"
+        Title="Solid Window" Height="450" Width="800" Closing="Window_Closing">
+    <Canvas>
+        <Rectangle Height="100" Canvas.Left="167" Stroke="Black" Canvas.Top="87" Width="172" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="Aqua"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Ellipse Height="100" Canvas.Left="503" Stroke="Black" Canvas.Top="86" Width="122" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Ellipse.Fill>
+                <SolidColorBrush Color="CadetBlue"/>
+            </Ellipse.Fill>
+
+        </Ellipse>
+
+    </Canvas>
+</Window>
