@@ -1,0 +1,15 @@
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\bin\Debug\CounterMVVMProject.exe.config
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\bin\Debug\CounterMVVMProject.exe
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\bin\Debug\CounterMVVMProject.pdb
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject.csproj.AssemblyReference.cache
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterWindow.g.cs
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\App.g.cs
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject_MarkupCompile.cache
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject_MarkupCompile.lref
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterWindow.baml
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject.g.resources
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject.Properties.Resources.resources
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject.csproj.GenerateResource.cache
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject.csproj.CoreCompileInputs.cache
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject.exe
+C:\Users\2021437\Desktop\QUEST\1-Tue\WpfAppSoluton\CounterMVVMProject\obj\Debug\CounterMVVMProject.pdb
