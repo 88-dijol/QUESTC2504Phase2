@@ -1,0 +1,19 @@
+﻿<Window x:Name="Fuk" x:Class="FullNameProject.FullNameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FullNameProject"
+        mc:Ignorable="d"
+        Title="Full Name App" Height="450" Width="800">
+    <Canvas>
+        <TextBlock x:Name="lblFirstName" Canvas.Left="156" TextWrapping="Wrap" Text="FIRST NAME" Canvas.Top="98" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="123" FontWeight="Bold" FontSize="18"/>
+        <TextBlock x:Name="lblLastName" Canvas.Left="159" TextWrapping="Wrap" Text="LAST NAME" Canvas.Top="160" Height="30" Width="123" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock x:Name="lblFirstName1" Canvas.Left="316" TextWrapping="Wrap" Text="Dijol " Canvas.Top="99" Height="30" Width="123"  Background="Beige"  FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" DataContext="{Binding Person.FirstName}"/>
+        <TextBlock x:Name="lblLastName1" Canvas.Left="322" TextWrapping="Wrap" Text="Davis" Canvas.Top="157" Height="30" Width="123" Background="Beige" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" DataContext="{Binding Person.LastName}"/>
+        <Button x:Name="btnEdit" Content="Edit" Canvas.Left="320" Canvas.Top="271" HorizontalAlignment="Left" VerticalAlignment="Center" Width="106" Height="54" FontWeight="Bold" FontSize="16"/>
+
+
+
+    </Canvas>
+</Window>
