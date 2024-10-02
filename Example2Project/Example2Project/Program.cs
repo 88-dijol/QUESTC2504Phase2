@@ -16,7 +16,7 @@ namespace Example2Project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new from1());
+            Application.Run(new frmCounterApp());
         }
     }
 }

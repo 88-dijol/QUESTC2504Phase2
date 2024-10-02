@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Example2Project
+{
+    public partial class frmExtendedCounter : Form
+    {
+        public frmExtendedCounter()
+        {
+            InitializeComponent();
+        }
+
+        private void frmExtendedCounter_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+        private void btnPlus_Click(object sender, EventArgs e)
+        {
+            CounterConfig.Count += (int)txtStep.Value;
+            CounterConfig.Count++;
+            lblZero.Text = CounterConfig.Count.ToString();
+
+        }
+
+        private void btnMinus_Click(object sender, EventArgs e)
+        {
+            CounterConfig.Count -= (int)txtStep.Value;
+            CounterConfig.Count--;
+            lblZero.Text = CounterConfig.Count.ToString();
+        }
+
+        private void frmExtendedCounter_Enter(object sender, EventArgs e)
+        {
+            lblZero.Text = CounterConfig.Count.ToString();
+        }
+    }
+}

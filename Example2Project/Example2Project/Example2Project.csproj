@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A98A8FEE-52B0-4AD5-9E4B-8C40E20A195D}</ProjectGuid>
+    <ProjectGuid>{20645628-0990-43E7-ACD7-42E8EFF55966}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Example2Project</RootNamespace>
     <AssemblyName>Example2Project</AssemblyName>
@@ -46,16 +46,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="from1.cs">
+    <Compile Include="CounterConfig.cs" />
+    <Compile Include="CounterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="from1.Designer.cs">
-      <DependentUpon>from1.cs</DependentUpon>
+    <Compile Include="CounterForm.Designer.cs">
+      <DependentUpon>CounterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExtendedCounter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtendedCounter.Designer.cs">
+      <DependentUpon>ExtendedCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="from1.resx">
-      <DependentUpon>from1.cs</DependentUpon>
+    <EmbeddedResource Include="CounterForm.resx">
+      <DependentUpon>CounterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExtendedCounter.resx">
+      <DependentUpon>ExtendedCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -65,7 +84,6 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -79,15 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\leftalign.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\center.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\right align.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
