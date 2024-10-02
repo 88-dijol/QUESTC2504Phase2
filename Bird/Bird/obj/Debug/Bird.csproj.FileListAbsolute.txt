@@ -1,0 +1,13 @@
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\bin\Debug\Bird.exe.config
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\bin\Debug\Bird.exe
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\bin\Debug\Bird.pdb
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.csproj.AssemblyReference.cache
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.CrowForm.resources
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.DuckForm.resources
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.MainPageForm.resources
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.PeacockForm.resources
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.Properties.Resources.resources
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.csproj.GenerateResource.cache
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.csproj.CoreCompileInputs.cache
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.exe
+C:\Users\2021437\Desktop\QUEST\Bird\Bird\obj\Debug\Bird.pdb
