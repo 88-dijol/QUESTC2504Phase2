@@ -1,0 +1,15 @@
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\bin\Debug\PatientProfilePageProject.exe.config
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\bin\Debug\PatientProfilePageProject.exe
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\bin\Debug\PatientProfilePageProject.pdb
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject.csproj.AssemblyReference.cache
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfileWindow.g.cs
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\App.g.cs
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject_MarkupCompile.cache
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject_MarkupCompile.lref
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfileWindow.baml
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject.g.resources
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject.Properties.Resources.resources
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject.csproj.GenerateResource.cache
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject.csproj.CoreCompileInputs.cache
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject.exe
+C:\Users\2021437\Desktop\QUEST\3-10-2024\PatientProfilePageProject\obj\Debug\PatientProfilePageProject.pdb
