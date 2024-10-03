@@ -21,6 +21,7 @@
         <Button  x:Name ="btnDock" Content="Dock" Canvas.Left="322" Canvas.Top="367" Width="109" Height="55" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnDock_Click"/>
 
         <TextBlock  x:Name ="lblPanel" Canvas.Left="43" TextWrapping="Wrap" Text="Panels" Canvas.Top="230" HorizontalAlignment="Left" VerticalAlignment="Center" Height="24" Width="40"/>
+        <Button x:Name="btnEditor" Content="Editor" Canvas.Left="478" Canvas.Top="164" HorizontalAlignment="Left" Height="44" VerticalAlignment="Center" Width="102" FontWeight="Bold" Click="btnEditor_Click"/>
 
 
 

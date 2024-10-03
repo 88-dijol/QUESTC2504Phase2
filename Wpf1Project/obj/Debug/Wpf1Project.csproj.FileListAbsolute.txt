@@ -33,3 +33,5 @@ C:\Users\2021437\Desktop\QUEST\30-Monday\Wpf1Project\obj\Debug\Wpf1Project.cspro
 C:\Users\2021437\Desktop\QUEST\30-Monday\Wpf1Project\obj\Debug\Wpf1Project.csproj.CoreCompileInputs.cache
 C:\Users\2021437\Desktop\QUEST\30-Monday\Wpf1Project\obj\Debug\Wpf1Project.exe
 C:\Users\2021437\Desktop\QUEST\30-Monday\Wpf1Project\obj\Debug\Wpf1Project.pdb
+C:\Users\2021437\Desktop\QUEST\30-Monday\Wpf1Project\obj\Debug\EditorWindow.g.cs
+C:\Users\2021437\Desktop\QUEST\30-Monday\Wpf1Project\obj\Debug\EditorWindow.baml

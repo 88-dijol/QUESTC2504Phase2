@@ -17,6 +17,8 @@ namespace Wpf1Project
 
         public static Window FrmVisual { get; set; }=new VisualBrushWindow();
 
+        public static Window FrmEditor { get; set; } = new EditorWindow();
+
 
         public static Window FrmStack { get; set; } = new StackWindow();
         public static Window FrmWrap { get; set; } = new WrapWindow();

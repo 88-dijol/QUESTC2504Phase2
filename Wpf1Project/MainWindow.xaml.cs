@@ -88,6 +88,9 @@ namespace Wpf1Project
 
         }
 
-       
+        private void btnEditor_Click(object sender, RoutedEventArgs e)
+        {
+            FormConfig.FrmEditor.Show();
+        }
     }
 }
