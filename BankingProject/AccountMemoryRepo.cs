@@ -42,13 +42,13 @@ namespace BankingProject
             accounts.Add(new AccountModel
 
             {
-                AccNo = 99999,
-                Name = "NJ",
+                AccNo = 123,
+                Name = "Dinoy",
                 Balance = 0,
                 AccType = "savings",
-                Email = "nj@gmail.com",
+                Email = "dinoy@gmail.com",
                 PhoneNumber = "5236526526",
-                Address = "gdsagdhsgdhsg",
+                Address = "mulakkampilly",
                 IsActive = true,
                 InterestPercentage = "0",
                 TransactionCount = 0,
@@ -58,13 +58,13 @@ namespace BankingProject
             });
             accounts.Add(new AccountModel
             {
-                AccNo = 3132324,
-                Name = "Ahanna",
+                AccNo = 124,
+                Name = "Davis",
                 Balance = 0,
                 AccType = "current",
-                Email = "ahana@gmail.com",
+                Email = "davis@gmail.com",
                 PhoneNumber = "5236526526",
-                Address = "gdsagdhsgdhsg",
+                Address = "tharayil",
                 IsActive = true,
                 InterestPercentage = "0",
                 TransactionCount = 0,

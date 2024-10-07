@@ -45,7 +45,7 @@ namespace BankingProject
 
         private void SavingsRadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            AccountConfig.VueModel.NewAccount.AccType = (string)AccountConfig.newAccountWindow.CurrentRadioButton.Content;
+            AccountConfig.VueModel.NewAccount.AccType = (string)AccountConfig.newAccountWindow.SavingsRadioButton.Content;
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
