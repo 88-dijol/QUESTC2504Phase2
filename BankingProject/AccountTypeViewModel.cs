@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -49,14 +49,17 @@ namespace BankingProject
             BarChartModel.Axes.Add(new OxyPlot.Axes.CategoryAxis
             {
                 Position = OxyPlot.Axes.AxisPosition.Left,
-                ItemsSource = accountGroups.Select(g => g.Type).ToList() // Get account types
+                ItemsSource = accountGroups.Select(g => g.Type).ToList() ,// Get account types
+                Title= "Account Types"
+                
             });
 
             BarChartModel.Axes.Add(new OxyPlot.Axes.LinearAxis
             {
                 Position = OxyPlot.Axes.AxisPosition.Bottom,
                 Minimum = 0,
-                Maximum = accountGroups.Max(g => g.Count) * 1.1
+                Maximum = accountGroups.Max(g => g.Count) * 1.1,
+                Title = "Number of accounts"
             });
             // Add bar items to the series
             for (int i = 0; i < accountGroups.Count; i++)
@@ -72,6 +75,8 @@ namespace BankingProject
         public void UpdateBarChart(ObservableCollection<AccountModel> accounts)
         {
             CreateBarchart(accounts);
+
+            OnPropertyChanged(nameof(BarChartModel));
         }
     }
 }
