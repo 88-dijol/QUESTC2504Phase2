@@ -1,0 +1,1080 @@
+IDigitalTwinRepo.cs
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DTVPDProject.Entities
+{
+    public interface IDigitalTwinsRepo
+    {
+        ObservableCollection<DigitalTwin> ReadAll();
+        DigitalTwin GetTwinById(int TwinID);
+        void Create(DigitalTwin digitalTwin);
+        void Update(DigitalTwin digitalTwin);
+        void Delete(int TwinID);
+
+    }
+}
+
+=================================================================
+ICollabrationRepo.cs
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DTVPDProject.Entities
+{
+    public interface ICollaborationRepo
+    {
+
+        ObservableCollection<Collaboration> GetAllCollaborations();
+        Collaboration GetCollaborationById(int collaborationId);
+        void AddCollaboration(Collaboration collaboration);
+        void DeleteCollaboration(int collaborationId);
+        //void RemoveCollaboration(int collaborationId);
+
+
+    }
+}
+======================================================================================
+EFdigitalTwinsRepo.cs
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Linq;
+using System.Runtime.Remoting.Contexts;
+using System.Text;
+using System.Threading.Tasks;
+using DTVPDProject.Entities;
+using DTVPDProject.Repo;
+
+namespace DTVPDProject.EFRepo
+{
+    public class EFDigitalTwinsRepo : IDigitalTwinsRepo
+    {
+        private readonly DtvpdDbEntities _context;
+
+        public EFDigitalTwinsRepo()
+        {
+            _context = new DtvpdDbEntities();
+        }
+
+        public ObservableCollection<DigitalTwin> ReadAll()
+        {
+            return new ObservableCollection<DigitalTwin>(_context.DigitalTwins.ToList());
+        }
+
+        public DigitalTwin GetDigitalTwinById(int twinID)
+        {
+            return _context.DigitalTwins.Find(twinID);
+        }
+
+        public void Create(DigitalTwin digitalTwin)
+        {
+            _context.DigitalTwins.Add(digitalTwin);
+            _context.SaveChanges();
+        }
+
+        public void Update(DigitalTwin digitalTwin)
+        {
+            var existingDigitalTwin = _context.DigitalTwins.Find(digitalTwin.TwinID);
+            if (existingDigitalTwin != null)
+            {
+                _context.Entry(existingDigitalTwin).CurrentValues.SetValues(digitalTwin);
+
+                // Save changes to the database
+                _context.SaveChanges();
+            }
+        }
+
+        public void Delete(int twinID)
+        {
+            var digitalTwin = _context.DigitalTwins.Find(twinID);
+            if (digitalTwin != null)
+            {
+                _context.DigitalTwins.Remove(digitalTwin);
+                _context.SaveChanges();
+            }
+        }
+
+        public DigitalTwin GetTwinById(int TwinID)
+        {
+            throw new NotImplementedException();
+        }
+
+       
+    }
+}
+============================================================================
+
+EFCollabrationRepo.cs
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DTVPDProject.Entities;
+using DTVPDProject.Repo;
+
+namespace DTVPDProject.EFRepo
+{
+    public class EFCollaborationRepo : ICollaborationRepo
+    {
+
+        private readonly DtvpdDbEntities _context;
+
+        public EFCollaborationRepo()
+        {
+            _context = new DtvpdDbEntities();
+        }
+
+        public ObservableCollection<Collaboration> GetAllCollaborations()
+        {
+            // Convert the list of collaborations to an ObservableCollection
+            return new ObservableCollection<Collaboration>(_context.Collaborations.ToList());
+        }
+
+        public Collaboration GetCollaborationById(int collaborationId)
+        {
+            return _context.Collaborations.Find(collaborationId);
+        }
+
+        public void AddCollaboration(Collaboration collaboration)
+        {
+            _context.Collaborations.Add(collaboration);
+            _context.SaveChanges();
+        }
+
+
+        public void DeleteCollaboration(int collaborationId)
+        {
+            var collaboration = _context.Collaborations.Find(collaborationId);
+            if (collaboration != null)
+            {
+                _context.Collaborations.Remove(collaboration);
+                _context.SaveChanges();
+            }
+        }
+    }
+}
+
+
+
+
+
+==================================================================================
+DIGITALTWINCREATIONWINDOW.XAML
+
+<Window x:Class="DTVPDProject.Pages.DigitalTwinCreationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DTVPDProject.Pages" xmlns:viewmodels="clr-namespace:DTVPDProject.ViewModels" 
+        mc:Ignorable="d"
+        Title="DigitalTwinCreationPageWindow" Height="450" Width="800" Closed="Window_Closed">
+    <Grid MaxWidth="1000" Margin="10 10 10 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"  x:Name="lblTitle"  Text="DIGITAL TWIN CREATION"
+           FontSize="24"
+           FontWeight="bold"
+           TextAlignment="center"/>
+        <Button x:Name="btnCreate" Grid.Row="1" Content="Create" Width="200" Height="30" Margin="0 10 0 0" HorizontalAlignment="left"
+        Background="yellow" Foreground="Black" FontWeight="bold" Click="btnCreate_Click"/>
+
+        <DataGrid x:Name="grdDigitalTwin" 
+        Grid.Row="2" Margin="0,10,0,64"
+                   IsReadOnly="True" AreRowDetailsFrozen="True" AutoGenerateColumns="False" 
+                  SelectionMode="Single" ItemsSource="{Binding DigitalTwin }" Grid.RowSpan="2" SelectedItem="{Binding SelectedDigitalTwin, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Twin ID " Binding="{Binding TwinID}"/>
+                <DataGridTextColumn Header="User ID " Binding="{Binding UserID}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="ModelPath" Binding="{Binding ModelPath}"/>
+                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+                <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,246,0,6" Width="762">
+
+            <Button x:Name="btnEdit" Content="Edit" Width="129" Height="30"
+        Background="yellow" Foreground="Black" FontWeight="bold"
+        Margin="0 10 10 10" Click="btnEdit_Click" />
+
+            <Button x:Name="btnSimulation" Grid.Row="3" Content="Simulation" Width="149" Height="30"
+        Margin="0,5,0,5"
+        Background="Yellow" Foreground="Black" FontWeight="bold" Click="btnSimulation_Click"
+        />
+            <Button x:Name="btnCollaborators" Grid.Row="3" Content="Collaborators" Width="126" Height="30"
+        Margin="10,5,0,5"
+        Background="Yellow" Foreground="Black" FontWeight="bold" Click="btnCollaborators_Click" 
+        />
+            <Button x:Name="btnIterations" Grid.Row="3" Content="Iterations" Width="134" Height="30"
+            Margin="15,5,0,5"
+            Background="Yellow" Foreground="Black" FontWeight="bold" Click="btnIterations_Click" 
+            />
+            <Button x:Name="btnDelete" Grid.Row="3" Content="Delete" Width="134" Height="30"
+            Margin="15,5,0,5"
+            Background="Yellow" Foreground="Black" FontWeight="bold" Command="{Binding DeleteCommand}"  
+            />
+
+        </StackPanel>
+
+
+    </Grid>
+</Window>
+=====================================================================
+
+DigitalTwinCreationWindow.xaml.cs
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace DTVPDProject.Pages
+{
+    /// <summary>
+    /// Interaction logic for DigitalTwinCreationPageWindow.xaml
+    /// </summary>
+    public partial class DigitalTwinCreationWindow : Window
+    {
+        public DigitalTwinCreationWindow()
+        {
+            InitializeComponent();
+            this.DataContext = FormConfig.digitalTwinCreationViewModel;
+            //LoadAllDigitalTwin();
+            //grdDigitalTwin.ItemsSource = AllDigitalTwin;
+        }
+
+        //public ObservableCollection<DigitalTwin> AllDigitalTwin { get; set; }
+
+        //public void LoadAllDigitalTwin()
+        //{
+        //    var context = new DtvpdDbEntities();
+        //    AllDigitalTwin = new ObservableCollection<DigitalTwin>(context.DigitalTwins.ToList());
+        //}
+
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            FormConfig.createListWindow.Show();
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (grdDigitalTwin.SelectedIndex == -1)
+            {
+                var result = MessageBox.Show(messageBoxText: "Please select an account to edit",
+                    caption: "Alert",
+                    button: MessageBoxButton.OK,
+                    icon: MessageBoxImage.Information);
+                return;
+            }
+            FormConfig.editListWindow.Show();
+
+        }
+
+        private void btnSimulation_Click(object sender, RoutedEventArgs e)
+        {
+            FormConfig.simulationManagementWindow.Show();
+
+        }
+
+        private void btnCollaborators_Click(object sender, RoutedEventArgs e)
+        {
+            FormConfig.collaborationWindow.Show();
+
+        }
+
+        private void btnIterations_Click(object sender, RoutedEventArgs e)
+        {
+            FormConfig.designIterationWindow.Show();
+
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+    }
+}
+=====================================================================================
+CreateListWindow.xaml
+<Window x:Class="DTVPDProject.Pages.CreateListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DTVPDProject.Pages" xmlns:viewmodels="clr-namespace:DTVPDProject.ViewModels" 
+        mc:Ignorable="d"
+        Title="CreateListWindow" Height="450" Width="800" Closing="Window_Closing">
+    <Grid MaxWidth="1200" Margin="0 0 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <DockPanel LastChildFill="True">
+
+            <TextBlock Grid.Row="0" TextAlignment="center" Text="Create Twin List"
+                FontSize="22" FontWeight="Bold" Background="ForestGreen" DockPanel.Dock="top" Margin="0 0 0 20" Height="43" />
+        </DockPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,10,0,2">
+            <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                <TextBlock x:Name="lblTwinID" Width="150" Text="Twin ID"/>
+                <TextBox x:Name="txtTwinID"  Width="300" Margin="100 0 0 0" Text="{Binding NewDigitalTwin.TwinID, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                <TextBlock x:Name="lblUserID" Width="150" Text="User ID"/>
+                <TextBox x:Name="txtUserID"  Width="300" Margin="100 0 0 0" Text="{Binding NewDigitalTwin.UserID, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                <TextBlock x:Name="lblName" Width="150" Text="Name" />
+                <TextBox x:Name="txtName"  Width="300" Margin="100 0 0 0" Text="{Binding NewDigitalTwin.Name, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                <TextBlock x:Name="lblDescription" Width="150" Text="Description" />
+                <TextBox x:Name="txtDescription"  Width="300" Margin="100 0 0 0" Text="{Binding NewDigitalTwin.Description, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+
+
+            <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                <TextBlock x:Name="lblModelPath" Width="150" Text="Model Path"/>
+                <TextBox x:Name="txtModelPath" TextWrapping="Wrap" Margin="100 0 0 0"  Width="90" Text="{Binding FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button x:Name="btnBrowse" Margin="10 0 0 0" Content="Browse" Width="74" Command="{Binding BrowseCommand}"/>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                <TextBlock x:Name="lblCreatedAt" Width="150" Text="CreatedDate"/>
+                <TextBox  Width="300" Margin="100 0 0 0" Text="{Binding NewDigitalTwin.CreatedAt}" IsEnabled="False"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                <TextBlock x:Name="lblUpdatedAt" Width="150" Text="Updated At"/>
+                <TextBox  Width="300" Margin="100 0 0 0" Text="{Binding NewDigitalTwin.UpdatedAt}" IsEnabled="False"/>
+            </StackPanel>
+
+
+
+        </StackPanel>
+
+        <Button x:Name="btnSave" HorizontalAlignment="right" Grid.Row="2" Width="200" Background="ForestGreen" Content="Save" Foreground="White" FontWeight="bold"
+             Height="50"
+             Margin="0 10 20 20" Command="{Binding CreateCommand}"
+             />
+    </Grid>
+</Window>
+====================================================================================================
+CreateListWindow.xaml.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace DTVPDProject.Pages
+{
+    /// <summary>
+    /// Interaction logic for CreateListWindow.xaml
+    /// </summary>
+    public partial class CreateListWindow : Window
+    {
+        public CreateListWindow()
+        {
+            InitializeComponent();
+            this.DataContext = FormConfig.digitalTwinCreationViewModel;
+
+            FormConfig.digitalTwinCreationViewModel.NewWindowClose = HideWindow;
+
+        }
+
+        public void HideWindow()
+        {
+            this.Hide();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+
+    }
+}
+=================================================================================
+EditListWindow.xaml
+<Window x:Class="DTVPDProject.Pages.EditListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DTVPDProject.Pages"
+        mc:Ignorable="d"
+        Title="EditListWindow" Height="450" Width="800" Closing="Window_Closing">
+    <Canvas>
+        <TextBlock x:Name="lblTwinID" TextWrapping="Wrap" Text="Twin ID"  Canvas.Left="150" Canvas.Top="86" Width="103" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtTwinID" TextWrapping="Wrap" Width="120" Canvas.Left="378"  Canvas.Top="85" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" Text="{Binding SelectedDigitalTwin.TwinID}"/>
+        <TextBlock x:Name="lblUserID" TextWrapping="Wrap" Text="User ID" Canvas.Left="150" Canvas.Top="123" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtUserID" TextWrapping="Wrap" Width="120"  Canvas.Left="378" Canvas.Top="121" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" Text="{Binding SelectedDigitalTwin.UserID}"/>
+        <TextBlock x:Name="lblName" TextWrapping="Wrap" Text="Name" Canvas.Left="150" Canvas.Top="162" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtName" Canvas.Left="379" TextWrapping="Wrap"  Canvas.Top="161" Width="120" Text="{Binding SelectedDigitalTwin.Name}"/>
+        <TextBlock x:Name="lblDescription" TextWrapping="Wrap" Text="Description" Canvas.Left="150" Canvas.Top="199" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtDescription"  TextWrapping="Wrap" Width="120" Canvas.Left="378" Canvas.Top="199" HorizontalAlignment="Center" VerticalAlignment="Center"  Text="{Binding SelectedDigitalTwin.Description}"/>
+        <TextBlock x:Name="lblModelPath" Width="150" Text="Model Path" Canvas.Left="150" Canvas.Top="238"  HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <TextBox Canvas.Left="384" TextWrapping="Wrap"  Canvas.Top="239" Width="65" HorizontalAlignment="Center" VerticalAlignment="Top" Height="22" Text="{Binding FilePath, Mode=TwoWay}"/>
+        <Button x:Name="btnBrowse" Content="Browse" Width="119" Canvas.Left="457" Canvas.Top="239" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding BrowseCommand}"/>
+        <TextBlock x:Name="lblCreatedAt" TextWrapping="Wrap" Text="Created At" Canvas.Left="150" Canvas.Top="284" HorizontalAlignment="Left" VerticalAlignment="Top" Height="17" Width="70"/>
+        <TextBox x:Name="txtCreatedAt" Canvas.Left="378" TextWrapping="Wrap"  Canvas.Top="284" Width="120" IsEnabled="False" Text="{Binding SelectedDigitalTwin.CreatedAt}"/>
+        <TextBox x:Name="txtUpdatedAt" Canvas.Left="380" TextWrapping="Wrap"  Canvas.Top="323" Width="125" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Text="{Binding SelectedDigitalTwin.UpdatedAt}"/>
+        <TextBlock x:Name="lblUpdatedAt" Canvas.Left="149" TextWrapping="Wrap" Text="Updated At" Canvas.Top="325" Height="20" Width="76"/>
+
+
+        <Button x:Name="btnUpdate" Content="Update" Canvas.Left="301" Canvas.Top="393" HorizontalAlignment="Left" VerticalAlignment="Center" Width="60" Command="{Binding UpdateCommand}" />
+
+
+
+
+
+    </Canvas>
+</Window>
+=========================================
+EdiListWindow.xaml.cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace DTVPDProject.Pages
+{
+    /// <summary>
+    /// Interaction logic for EditListWindow.xaml
+    /// </summary>
+    public partial class EditListWindow : Window
+    {
+        public EditListWindow()
+        {
+            InitializeComponent();
+            this.DataContext = FormConfig.digitalTwinCreationViewModel;
+
+            FormConfig.digitalTwinCreationViewModel.NewWindowClose = HideWindow;
+
+        }
+
+        private static EditListWindow _instance;
+
+        public static EditListWindow Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new EditListWindow();
+                }
+
+                return _instance;
+            }
+        }
+
+        public void HideWindow()
+        {
+            this.Hide();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+    }
+}
+==============================================================================================
+CollabrationWindow.xaml
+
+<Window x:Class="DTVPDProject.Pages.CollaborationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DTVPDProject.Pages"
+        mc:Ignorable="d"
+        Title="CollaborationPageWindow" Height="450" Width="800" Closing="Window_Closing_1">
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Heading -->
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                  FontSize="24" 
+                  FontWeight="Bold" 
+                  Margin="10" TextAlignment="Center">
+           Collaboration
+        </TextBlock>
+
+        <!-- Twin and Collaborator -->
+        <StackPanel Grid.Row="1" Grid.Column="0" 
+                   Orientation="Horizontal" 
+                   Margin="10">
+            <TextBlock x:Name="lblTwinID">Twin ID :</TextBlock>
+            <TextBox x:Name="txtTwinID" Margin="20,0" Width="92" Text="{Binding TwinID}"/>
+            <TextBlock x:Name="lblUserID">User  ID :</TextBlock>
+            <TextBox x:Name="txtUserID" Margin="20,0" Width="92" Text="{Binding UserID}"/>
+            <TextBlock x:Name="lblComment">Comment :</TextBlock>
+            <TextBox x:Name="txtComment" Width="152" Margin="20,0" Text="{Binding Comment}"/>
+            <Button x:Name="btnAdd" Content="Add Collaboration" 
+                    Margin="12,0" Width="160" Command="{Binding AddCollaborationCommand}" Click="btnAdd_Click"/>
+        </StackPanel>
+
+        <!-- Collaborators List -->
+        <DataGrid Grid.Row="2" Grid.Column="0" 
+                  Margin="14,36,236,96" 
+                  AutoGenerateColumns="False" 
+                  ItemsSource="{Binding Collaborations}"
+                  SelectedItem="{Binding SelectedCollaboration}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Collaboration ID" Binding="{Binding CollaborationID}"/>
+                <DataGridTextColumn Header="Twin ID" Binding="{Binding TwinID}"/>
+                <DataGridTextColumn Header="User  ID" Binding="{Binding UserID}"/>
+                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}"/>
+                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Remove Collaborator Button -->
+        <Button x:Name="btnRemoveCollaboration" Grid.Row="2" Grid.Column="0" 
+                HorizontalAlignment="Right" 
+                Margin="0,0,663,10" 
+                Content="Remove Collaboration" 
+                Width="120" Command="{Binding RemoveCollaborationCommand}" Height="20" Grid.RowSpan="2" VerticalAlignment="Bottom" Click="btnRemoveCollaboration_Click"/>
+    </Grid>
+</Window>
+
+
+<!--<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        -->
+<!-- Heading -->
+<!--
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                  FontSize="24" 
+                  FontWeight="Bold" 
+                  Margin="10" TextAlignment="Center">
+           Collaboration
+        </TextBlock>
+
+        -->
+<!-- Twin and Colloborator -->
+<!--
+        <StackPanel Grid.Row="1" Grid.Column="0" 
+                   Orientation="Horizontal" 
+                   Margin="10">
+            <TextBlock x:Name="lblTwin">Twin :</TextBlock>
+            <TextBox x:Name="txtTwin" Margin="20,0" Width="92"/>
+            <TextBlock x:Name="lblCollabratorName">Colloborator Name :</TextBlock>
+            <TextBox x:Name="txtCollabratorName" Width="152" Margin="20,0" />
+            <Button x:Name="btnAdd" Content="Add as Colloborator" 
+                   Margin="12,0" Width="160" />
+        </StackPanel>
+
+        -->
+<!-- Colloborators List -->
+<!--
+        <DataGrid Grid.Row="2" Grid.Column="0" 
+                Margin="14,36,236,96" 
+                AutoGenerateColumns="False" 
+               >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Twin ID" Binding="{Binding TwinID}"/>
+                <DataGridTextColumn Header="ColloboratorName" Binding="{Binding ColloboratorName}"/>
+                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+       
+       
+    </Grid>-->
+==============================================================
+CollabrationWindow.xaml.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using DTVPDProject.EFRepo;
+using DTVPDProject.Entities;
+using DTVPDProject.ViewModels;
+
+namespace DTVPDProject.Pages
+{
+    /// <summary>
+    /// Interaction logic for CollaborationPageWindow.xaml
+    /// </summary>
+    public partial class CollaborationWindow : Window
+    {
+        public CollaborationWindow()
+        {
+            InitializeComponent();
+            this.DataContext = ViewModelConfig.CollaborationViewModel;
+
+
+
+        }
+        public void WindowClose()
+        {
+            this.Hide();
+        }
+
+
+
+        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+
+
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = this.DataContext as CollaborationViewModel;
+
+            // Check if the DataContext is valid
+            if (viewModel != null)
+            {
+                // Create a new Collaboration instance
+                var newCollaboration = new Collaboration
+                {
+                    TwinID = int.TryParse(txtTwinID.Text, out int twinId) ? (int?)twinId : null,
+                    UserID = int.TryParse(txtUserID.Text, out int userId) ? (int?)userId : null,
+                    Comment = txtComment.Text,
+                    CreatedAt = DateTime.Now // Set the current date and time
+                };
+
+                // Call the AddCollaboration method in the ViewModel
+                viewModel.AddCollaboration(newCollaboration);
+
+                // Optionally, clear the input fields after adding
+                txtTwinID.Clear();
+                txtUserID.Clear();
+                txtComment.Clear();
+
+            }
+        }
+
+        private void btnRemoveCollaboration_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = this.DataContext as CollaborationViewModel;
+
+            // Check if the DataContext is valid
+            if (viewModel != null)
+            {
+                // Call the RemoveCollaboration method in the ViewModel
+                viewModel.RemoveCollaboration();
+            }
+        }
+    }
+}
+===================================================================================================
+DigitalTwinCreationViewModel.cs
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DTVPDProject.Commands;
+using System.Windows.Input;
+using System.Windows;
+using DTVPDProject.EFRepo;
+using Microsoft.Win32;
+using DTVPDProject.Entities;
+
+namespace DTVPDProject.ViewModels
+{
+    public class DigitalTwinCreationViewModel : ViewModelBase
+    {
+        private readonly EFDigitalTwinsRepo _digitalTwinsRepo;
+        public DWindowClose NewWindowClose;
+        private ObservableCollection<DigitalTwin> _digitalTwin;
+        private DigitalTwin _newDigitalTwin;
+        private DigitalTwin _selectedDigitalTwin;
+
+        public ObservableCollection<DigitalTwin> DigitalTwin
+        {
+            get { return _digitalTwin; }
+            set { _digitalTwin = value; OnPropertyChanged(nameof(DigitalTwin)); }
+        }
+
+
+
+        public DigitalTwin NewDigitalTwin
+        {
+            get { return _newDigitalTwin; }
+            set { _newDigitalTwin = value; OnPropertyChanged(nameof(NewDigitalTwin)); }
+        }
+
+        public DigitalTwin SelectedDigitalTwin
+        {
+            get { return _selectedDigitalTwin; }
+            set { _selectedDigitalTwin = value; OnPropertyChanged(nameof(SelectedDigitalTwin)); }
+        }
+
+        private string _filePath;
+
+        public string FilePath
+        {
+            get { return _filePath; }
+            set
+            {
+                _filePath = value;
+                OnPropertyChanged("FilePath");
+            }
+        }
+
+        public ICommand CreateCommand { get; }
+        public ICommand UpdateCommand { get; }
+        public ICommand DeleteCommand { get; }
+
+        public ICommand BrowseCommand { get; set; }
+
+        public DigitalTwinCreationViewModel()
+        {
+            _digitalTwinsRepo = new EFDigitalTwinsRepo();
+
+            CreateCommand = new RelayCommand(Create);
+            UpdateCommand = new RelayCommand(Update);
+            DeleteCommand = new RelayCommand(Delete);
+            BrowseCommand = new RelayCommand(BrowseFile);
+
+            NewDigitalTwin = new DigitalTwin
+            {
+                TwinID = 1,
+                UserID = 1,
+                Name = " ",
+                Description = "",
+                ModelPath = "",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+
+            };
+            LoadDigitalTwin();
+        }
+
+        public void LoadDigitalTwin()
+        {
+            DigitalTwin = _digitalTwinsRepo.ReadAll();
+        }
+
+        public void Create()
+        {
+
+
+            try
+            {
+                var result = MessageBox.Show(messageBoxText: "Are you sure to create?",
+                caption: "Confirm",
+                button: MessageBoxButton.YesNo,
+                icon: MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+                _digitalTwinsRepo.Create(NewDigitalTwin);
+                DigitalTwin.Add(NewDigitalTwin);
+                result = MessageBox.Show(messageBoxText: "Created Successfully",
+                caption: "Alert",
+                button: MessageBoxButton.OK,
+                icon: MessageBoxImage.Information);
+                LoadDigitalTwin();
+
+                if (NewWindowClose != null)
+                {
+                    NewWindowClose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show($"{ex.Message}");
+            }
+
+
+        }
+
+        public void Update()
+        {
+
+
+            try
+            {
+                var result = MessageBox.Show(messageBoxText: "Are you sure to update?",
+                        caption: "Confirm",
+                        button: MessageBoxButton.YesNo,
+                        icon: MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+                _digitalTwinsRepo.Update(SelectedDigitalTwin);
+                result = MessageBox.Show(messageBoxText: "Updated Successfully",
+                caption: "Alert",
+                button: MessageBoxButton.OK,
+                icon: MessageBoxImage.Information);
+                LoadDigitalTwin();
+
+                if (NewWindowClose != null)
+                {
+                    NewWindowClose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
+
+        }
+
+        public void Delete()
+        {
+
+
+
+            try
+            {
+                var result = MessageBox.Show(messageBoxText: "Are you sure to delete?",
+                        caption: "Confirm",
+                        button: MessageBoxButton.YesNo,
+                        icon: MessageBoxImage.Question);
+                if (result != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+                _digitalTwinsRepo.Delete(SelectedDigitalTwin.TwinID);
+                result = MessageBox.Show(messageBoxText: "Deleted Successfully",
+                caption: "Alert",
+                button: MessageBoxButton.OK,
+                icon: MessageBoxImage.Information);
+                LoadDigitalTwin();
+
+                if (NewWindowClose != null)
+                {
+                    NewWindowClose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
+        }
+
+        private void BrowseFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                FilePath = openFileDialog.FileName;
+            }
+        }
+
+
+    }
+
+
+}
+
+====================================================================================================
+CollabrationViewModel.cs
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DTVPDProject.Commands;
+using DTVPDProject.EFRepo;
+using System.Windows.Input;
+using DTVPDProject.Repo;
+using System.Runtime.CompilerServices;
+using DTVPDProject.Entities;
+
+namespace DTVPDProject.ViewModels
+{
+    public class CollaborationViewModel : ViewModelBase
+    {
+        private readonly EFCollaborationRepo _collaborationRepo;
+        public DWindowClose NewWindowClose;
+
+        public CollaborationViewModel()
+        {
+            _collaborationRepo = new EFCollaborationRepo();
+            LoadCollaborations();
+        }
+
+        private ObservableCollection<Collaboration> _collaborations;
+        public ObservableCollection<Collaboration> Collaborations
+        {
+            get { return _collaborations; }
+            set { _collaborations = value; onPropertyChanged(nameof(Collaborations)); }
+        }
+
+        private Collaboration _selectedCollaboration;
+        public Collaboration SelectedCollaboration
+        {
+            get { return _selectedCollaboration; }
+            set { _selectedCollaboration = value; onPropertyChanged(nameof(SelectedCollaboration)); }
+        }
+
+        private string _twinId;
+        public string TwinId
+        {
+            get { return _twinId; }
+            set { _twinId = value; }
+        }
+
+        private string _userId;
+        public string UserId
+        {
+            get { return _userId; }
+            set { _userId = value; }
+        }
+
+        private string _comment;
+        public string Comment
+        {
+            get { return _comment; }
+            set { _comment = value; }
+        }
+
+        public ICommand AddCollaborationCommand { get; set; }
+        //public ICommand DeleteCollaborationCommand { get; set; }
+        public ICommand RemoveCollaborationCommand { get; set; }
+
+        private void LoadCollaborations()
+        {
+            Collaborations = _collaborationRepo.GetAllCollaborations();
+        }
+
+        public void AddCollaboration(Collaboration collaboration)
+        {
+            //var collaboration = new Collaboration
+            //{
+            //    TwinID = int.Parse(TwinId),
+            //    UserID = int.Parse(UserId),
+            //    Comment = Comment
+            //};
+
+            //_collaborationRepo.AddCollaboration(collaboration);
+            //LoadCollaborations();
+            _collaborationRepo.AddCollaboration(collaboration);
+            LoadCollaborations();
+        }
+
+        //public void DeleteCollaboration()
+        //{
+        //    if (SelectedCollaboration != null)
+        //    {
+        //        _collaborationRepo.DeleteCollaboration(SelectedCollaboration.CollaborationID);
+        //        LoadCollaborations();
+        //    }
+        //}
+        public void RemoveCollaboration()
+        {
+            if (SelectedCollaboration != null)
+            {
+                _collaborationRepo.DeleteCollaboration(SelectedCollaboration.CollaborationID);
+                LoadCollaborations();
+            }
+        }
+        //private bool CanRemoveCollaboration()
+        //{
+        //    return SelectedCollaboration != null;
+        //}
+    }
+}
+
+
+
+
+
+
